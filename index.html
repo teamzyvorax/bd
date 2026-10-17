@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#ff5fa2" />
+  <meta name="description" content="A cute interactive birthday surprise." />
+  <title>Happy Birthday 💖</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-orb orb-one"></div><div class="bg-orb orb-two"></div>
+  <div id="hearts" aria-hidden="true"></div>
+  <main class="page">
+    <section class="hero glass">
+      <div class="badge">✨ A little birthday surprise ✨</div>
+      <p class="eyebrow">Today is all about you</p>
+      <h1>Happy Birthday, <span id="name">Beautiful</span>! 💖</h1>
+      <p class="lead">May your day sparkle with laughter, love, sweet memories and a thousand little reasons to smile.</p>
+      <div class="actions">
+        <button class="primary" id="surpriseBtn">Open Your Surprise 🎁</button>
+        <button class="secondary" id="shareBtn">Share 💌</button>
+      </div>
+      <p class="hint">Tap the gift and let the magic begin ✨</p>
+    </section>
+
+    <section id="surprise" class="surprise glass hidden">
+      <div class="cake">🎂</div>
+      <h2>For the sweetest person 💕</h2>
+      <p>Another year, another chapter, another collection of beautiful moments waiting for you. Keep shining exactly as you are.</p>
+      <div class="wish-card">
+        <span>🌷</span><div><strong>My birthday wish for you</strong><p>May happiness find you everywhere, may your dreams grow bigger, and may your heart always have something wonderful to celebrate.</p></div>
+      </div>
+      <div class="mini-grid"><div>💗<b>Love</b><small>Always around you</small></div><div>🌟<b>Dreams</b><small>Coming true soon</small></div><div>🥳<b>Joy</b><small>Every single day</small></div></div>
+    </section>
+
+    <section class="footer-note">Made with <span>♥</span> just for you · <button id="musicBtn">🔇 Music</button></section>
+  </main>
+  <canvas id="confetti"></canvas>
+  <audio id="music" loop preload="none">
+    <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_7d2a5c1f8f.mp3" type="audio/mpeg">
+  </audio>
+  <script src="script.js"></script>
+</body>
+</html>
