@@ -8,16 +8,17 @@
 </style></head>
 <body>
 <div class="card"><div class="badge">🎀 Birthday Music</div><div class="emoji">🎵💖</div><h1 class="title">Your Birthday Song</h1><p class="sub">Upload your music to the Render server and get a shareable link.</p>
-<input id="apiUrl" class="api" placeholder="Render API URL — https://your-app.onrender.com">
-<div class="small">Paste your Render service URL once. It will be remembered in this browser.</div>
+<input id="apiUrl" class="api" placeholder="Render API URL — https://zyvora-birthday-music.onrender.com">
+<div class="small">Render API already connected. You can change it here if needed.</div>
 <label class="upload">🎶 Upload Music<input id="musicUpload" type="file" accept="audio/*"></label>
 <input id="musicName" class="name" maxlength="80" placeholder="Music name (optional)">
 <div class="status" id="status"></div>
 <div class="player"><div id="trackName" class="track">🎵 Birthday Music</div><audio id="player" controls loop preload="metadata"><source src="https://cdn.pixabay.com/audio/2022/03/15/audio_7d2a5c1f8f.mp3" type="audio/mpeg"></audio></div>
-<div class="buttons"><button class="primary" id="shareBtn">📤 Share Music</button><a class="link secondary" href="./">🎂 Birthday Page</a></div><p class="hint">⚠️ Render's normal filesystem is temporary. For permanent music, use a persistent disk or external object storage.</p></div>
+<div class="buttons"><button class="primary" id="shareBtn">📤 Share Music</button><a class="link secondary" href="./">🎂 Birthday Page</a></div><p class="hint">⚠️ Current Render upload storage is temporary. For permanent music across restarts, add persistent storage or external object storage.</p></div>
 <script>
+const DEFAULT_API='https://zyvora-birthday-music.onrender.com';
 const upload=document.getElementById('musicUpload'),player=document.getElementById('player'),name=document.getElementById('musicName'),track=document.getElementById('trackName'),api=document.getElementById('apiUrl'),status=document.getElementById('status');
-api.value=localStorage.getItem('bdRenderApiUrl')||'';
+api.value=localStorage.getItem('bdRenderApiUrl')||DEFAULT_API;
 api.addEventListener('change',()=>localStorage.setItem('bdRenderApiUrl',api.value.trim().replace(/\/$/,'')));
 const savedName=localStorage.getItem('bdMusicName');if(savedName){name.value=savedName;track.textContent='🎵 '+savedName}
 name.addEventListener('input',()=>{localStorage.setItem('bdMusicName',name.value);track.textContent='🎵 '+(name.value||'Birthday Music')});
