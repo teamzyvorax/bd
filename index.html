@@ -40,33 +40,41 @@
       <h1>Happy Birthday, <span id="name">Beautiful</span>! 💖</h1>
       <p id="ageLine" class="age-line"></p>
       <p class="lead">May your day sparkle with laughter, love, sweet memories and a thousand little reasons to smile.</p>
-
       <div class="countdown-card">
         <span class="countdown-label">🎂 Birthday countdown</span>
         <div class="countdown"><div><b id="days">00</b><small>Days</small></div><div><b id="hours">00</b><small>Hours</small></div><div><b id="minutes">00</b><small>Minutes</small></div><div><b id="seconds">00</b><small>Seconds</small></div></div>
         <p id="countdownText">Counting down to your special day…</p>
       </div>
-
       <div class="actions">
         <button class="primary" id="surpriseBtn">Open Your Surprise 🎁</button>
         <button class="secondary" id="shareBtn">Share 💌</button>
         <button class="secondary" id="editBtn">Edit Details ✏️</button>
       </div>
-      <p class="hint">Tap the gift and let the magic begin ✨</p>
+      <p class="hint">There are 25 gifts waiting inside… 🎁🎁🎁</p>
     </section>
 
     <section id="surprise" class="surprise glass hidden">
+      <div class="gift-progress"><span id="giftNumber">Gift 1</span><div class="progress-track"><i id="giftProgress"></i></div><small>One gift opens another 💕</small></div>
       <div class="gift-stage" id="giftStage" aria-label="3D birthday gift">
         <div class="gift-shadow"></div><div class="gift-box"><div class="gift-lid"></div><div class="ribbon-v"></div><div class="ribbon-h"></div></div>
         <div class="gift-bow"><span></span><span></span></div>
       </div>
-      <button id="giftBtn" class="gift-open">Open Gift 🎁</button>
+      <button id="giftBtn" class="gift-open">Open Gift 1 🎁</button>
       <div id="giftMessage" class="gift-message hidden">
-        <div class="cake">🎂</div>
-        <h2>For the sweetest person 💕</h2>
-        <p>Another year, another chapter, another collection of beautiful moments waiting for you. Keep shining exactly as you are.</p>
-        <div class="wish-card"><span>🌷</span><div><strong>My birthday wish for you</strong><p>May happiness find you everywhere, may your dreams grow bigger, and may your heart always have something wonderful to celebrate.</p></div></div>
-        <div class="mini-grid"><div>💗<b>Love</b><small>Always around you</small></div><div>🌟<b>Dreams</b><small>Coming true soon</small></div><div>🥳<b>Joy</b><small>Every single day</small></div></div>
+        <div id="giftBadge" class="gift-badge">A tiny surprise 💖</div>
+        <img id="giftPic" class="gift-pic" alt="Surprise gift picture" loading="lazy" />
+        <h2 id="giftTitle">A little something for you</h2>
+        <p id="giftText"></p>
+        <button id="nextGiftBtn" class="primary next-gift">Open Gift 2 ➜</button>
+      </div>
+      <div id="megaMessage" class="mega-message hidden">
+        <div class="mega-glow">👑</div>
+        <div class="mega-box-art">🎁</div>
+        <div class="gift-badge">THE FINAL MEGA SURPRISE ✨</div>
+        <h2>25 Gifts. One Huge Wish. 💖</h2>
+        <p>You made it all the way to the biggest box! May your life be filled with the same warmth, smiles and magic that these little surprises brought you.</p>
+        <div class="mega-wish">🌸 <b>Happy Birthday!</b> 🌸<br><span>May every new chapter be even more beautiful than the last.</span></div>
+        <button id="replayBtn" class="secondary">Play All Gifts Again 🔄</button>
       </div>
     </section>
 
