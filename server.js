@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded',function(){
     }
     if(location.pathname!=='/'&&location.search)history.replaceState({},'',location.pathname);
 
+    const makeSlug=v=>String(v||'beautiful').toLowerCase().trim().replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'').slice(0,60)||'beautiful';
     const form=document.getElementById('setupForm');
     if(form)form.addEventListener('submit',function(e){
       e.preventDefault();e.stopImmediatePropagation();
@@ -44,7 +45,7 @@ document.addEventListener('DOMContentLoaded',function(){
       const age=(document.getElementById('ageInput')?.value||'').trim();
       const date=document.getElementById('dateInput')?.value||'';
       const photo=window.currentPhoto&&window.currentPhoto.length<180000?window.currentPhoto:'';
-      const slug=slugify(name);
+      const slug=makeSlug(name);
       localStorage.setItem('bdSlugData:'+slug,JSON.stringify({name,age,date,photo}));
       location.href='/'+slug;
     },true);
@@ -55,7 +56,7 @@ document.addEventListener('DOMContentLoaded',function(){
       const name=(document.getElementById('name')?.textContent||'Beautiful').trim();
       const age=(document.getElementById('ageInput')?.value||'').trim();
       const date=document.getElementById('dateInput')?.value||'';
-      const slug=slugify(name);
+      const slug=makeSlug(name);
       localStorage.setItem('bdSlugData:'+slug,JSON.stringify({name,age,date,photo:window.currentPhoto||''}));
       const url=location.origin+'/'+slug;
       try{if(navigator.share)await navigator.share({title:'A Birthday Surprise 💖',text:'Happy Birthday, '+name+'! 🎂💖',url});else{await navigator.clipboard.writeText(url);share.textContent='Link Copied! 💌';setTimeout(()=>share.textContent='Share 💌',1800)}}catch(err){}
