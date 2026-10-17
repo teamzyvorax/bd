@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="theme-color" content="#ff5fa2"><title>Birthday Music 🎵</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Poppins,sans-serif;color:#4a2440;background:radial-gradient(circle at 15% 10%,#ffd9ed,transparent 35%),radial-gradient(circle at 85% 90%,#dcd8ff,transparent 35%),linear-gradient(135deg,#fff6fb,#f5f1ff);display:grid;place-items:center;padding:22px}.orb{position:fixed;border-radius:50%;filter:blur(3px);opacity:.45;pointer-events:none}.card{width:min(560px,100%);padding:32px;border:1px solid #fff;background:rgba(255,255,255,.72);backdrop-filter:blur(18px);border-radius:30px;box-shadow:0 25px 70px rgba(128,58,106,.18);text-align:center}.badge{display:inline-block;padding:8px 14px;border-radius:999px;background:#ffe2f0;color:#d63384;font-weight:700}.emoji{font-size:70px;margin:12px}.title{font-family:'Baloo 2';font-size:42px;line-height:1;margin:5px 0 8px}.sub{color:#7c6171}.upload{display:block;margin:22px 0;padding:16px;border:2px dashed #ef9bc2;border-radius:18px;background:#fff7fb;cursor:pointer;font-weight:700;color:#c52c78}.upload input{display:block;width:100%;margin-top:10px}.name{width:100%;padding:13px;border:1px solid #e7c8d9;border-radius:13px;font:inherit;margin-top:10px}.player{margin:18px 0;padding:20px;border-radius:22px;background:#fff}.track{font-weight:700;margin-bottom:12px;word-break:break-word}audio{width:100%}.buttons{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}button,.link{border:0;border-radius:14px;padding:12px 18px;font:700 15px Poppins;cursor:pointer;text-decoration:none}.primary{background:linear-gradient(135deg,#ff5fa2,#ff8fbd);color:white;box-shadow:0 8px 22px #ff5fa244}.secondary{background:white;color:#c52c78;border:1px solid #f1bfd7}.hint{font-size:12px;color:#8d7381;margin-top:18px}.hidden{display:none}
+</style></head>
+<body>
+<div class="card"><div class="badge">🎀 Birthday Music</div><div class="emoji">🎵💖</div><h1 class="title">Your Birthday Song</h1><p class="sub">Upload your own music and play it with the birthday surprise.</p>
+<label class="upload">🎶 Upload Music<input id="musicUpload" type="file" accept="audio/*"></label>
+<input id="musicName" class="name" maxlength="80" placeholder="Music name (optional)">
+<div class="player"><div id="trackName" class="track">🎵 Birthday Music</div><audio id="player" controls loop preload="metadata"><source src="https://cdn.pixabay.com/audio/2022/03/15/audio_7d2a5c1f8f.mp3" type="audio/mpeg"></audio></div>
+<div class="buttons"><button class="primary" id="shareBtn">📤 Share Music</button><a class="link secondary" href="./">🎂 Birthday Page</a></div><p class="hint">Uploaded music stays in this browser. For a music file that everyone can hear from the shared link, add the audio file to the website/repository.</p></div>
+<script>
+const upload=document.getElementById('musicUpload'),player=document.getElementById('player'),name=document.getElementById('musicName'),track=document.getElementById('trackName');
+const savedName=localStorage.getItem('bdMusicName'); if(savedName){name.value=savedName;track.textContent='🎵 '+savedName}
+name.addEventListener('input',()=>{localStorage.setItem('bdMusicName',name.value);track.textContent='🎵 '+(name.value||'Birthday Music')});
+upload.addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;if(!f.type.startsWith('audio/'))return alert('Please choose an audio file.');player.src=URL.createObjectURL(f);track.textContent='🎵 '+(name.value||f.name);});
+document.getElementById('shareBtn').addEventListener('click',async()=>{const url=location.href;if(navigator.share){try{await navigator.share({title:'Birthday Music 🎵',text:'Listen to this birthday music 💖',url})}catch(e){}}else{try{await navigator.clipboard.writeText(url);alert('Music link copied! 💖')}catch(e){prompt('Copy this music link:',url)}}});
+</script></body></html>
