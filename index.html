@@ -14,83 +14,41 @@
 <body>
   <div class="bg-orb orb-one"></div><div class="bg-orb orb-two"></div>
   <div id="hearts" aria-hidden="true"></div>
-
   <section id="setup" class="setup-wrap">
     <div class="setup glass">
-      <div class="badge">🎀 Make it personal</div>
-      <h1>Create a birthday surprise 💖</h1>
-      <p>Enter the birthday details, add a photo, then customize all 25 gifts with your own pictures and messages.</p>
+      <div class="badge">🎀 Make it personal</div><h1>Create a birthday surprise 💖</h1>
+      <p>Enter the birthday details, add a photo, customize all 25 gifts, and choose your birthday music.</p>
       <form id="setupForm">
         <label>Name<input id="nameInput" maxlength="40" placeholder="e.g. Priya" required /></label>
         <label>Age<input id="ageInput" type="number" min="1" max="120" placeholder="e.g. 21" /></label>
         <label>Birthday date<input id="dateInput" type="date" required /></label>
         <label class="upload">📸 Upload main photo<input id="photoInput" type="file" accept="image/*" /></label>
         <img id="photoPreview" class="photo-preview hidden" alt="Birthday photo preview" />
-
-        <div class="gift-manager">
-          <div class="manager-head">
-            <div><b>🎁 Gift 1–25 Upload</b><small>Har gift ki apni photo + cute text</small></div>
-            <span>25 gifts</span>
-          </div>
-          <div id="giftEditor" class="gift-editor"></div>
+        <div class="music-upload-card" style="margin:18px 0;padding:18px;border:1px solid #f1bfd7;border-radius:18px;background:#fff7fb">
+          <b>🎵 Birthday Music</b><small style="display:block;margin:5px 0 12px">Apna MP3/WAV upload karo. Music player page bhi available hai.</small>
+          <label class="upload">🎶 Upload Music<input id="birthdayMusicInput" type="file" accept="audio/*" /></label>
+          <div id="birthdayMusicName" style="font-size:13px;color:#c52c78">Default birthday music selected</div>
+          <a href="music.html" target="_blank" style="display:inline-block;margin-top:10px;color:#c52c78;font-weight:700">🎧 Open Music Player & Share Link</a>
         </div>
-
+        <div class="gift-manager"><div class="manager-head"><div><b>🎁 Gift 1–25 Upload</b><small>Har gift ki apni photo + cute text</small></div><span>25 gifts</span></div><div id="giftEditor" class="gift-editor"></div></div>
         <button class="primary wide" type="submit">Create My Birthday Page ✨</button>
       </form>
-      <p class="tiny">Gift photos are saved only in this browser. Nothing is uploaded to a server.</p>
+      <p class="tiny">Gift photos and uploaded music are saved only in this browser unless you add files to the website/repository.</p>
     </div>
   </section>
-
   <main id="birthdayPage" class="page hidden-page">
-    <section class="hero glass">
-      <div class="badge">✨ A little birthday surprise ✨</div>
-      <p class="eyebrow">Today is all about you</p>
-      <div id="photoFrame" class="photo-frame hidden"><img id="heroPhoto" alt="Birthday photo" /></div>
-      <h1>Happy Birthday, <span id="name">Beautiful</span>! 💖</h1>
-      <p id="ageLine" class="age-line"></p>
-      <p class="lead">May your day sparkle with laughter, love, sweet memories and a thousand little reasons to smile.</p>
-      <div class="countdown-card">
-        <span class="countdown-label">🎂 Birthday countdown</span>
-        <div class="countdown"><div><b id="days">00</b><small>Days</small></div><div><b id="hours">00</b><small>Hours</small></div><div><b id="minutes">00</b><small>Minutes</small></div><div><b id="seconds">00</b><small>Seconds</small></div></div>
-        <p id="countdownText">Counting down to your special day…</p>
-      </div>
-      <div class="actions">
-        <button class="primary" id="surpriseBtn">Open Your Surprise 🎁</button>
-        <button class="secondary" id="shareBtn">Share 💌</button>
-        <button class="secondary" id="editBtn">Edit Details ✏️</button>
-      </div>
-      <p class="hint">There are 25 gifts waiting inside… 🎁🎁🎁</p>
+    <section class="hero glass"><div class="badge">✨ A little birthday surprise ✨</div><p class="eyebrow">Today is all about you</p><div id="photoFrame" class="photo-frame hidden"><img id="heroPhoto" alt="Birthday photo" /></div>
+      <h1>Happy Birthday, <span id="name">Beautiful</span>! 💖</h1><p id="ageLine" class="age-line"></p><p class="lead">May your day sparkle with laughter, love, sweet memories and a thousand little reasons to smile.</p>
+      <div class="countdown-card"><span class="countdown-label">🎂 Birthday countdown</span><div class="countdown"><div><b id="days">00</b><small>Days</small></div><div><b id="hours">00</b><small>Hours</small></div><div><b id="minutes">00</b><small>Minutes</small></div><div><b id="seconds">00</b><small>Seconds</small></div></div><p id="countdownText">Counting down to your special day…</p></div>
+      <div class="actions"><button class="primary" id="surpriseBtn">Open Your Surprise 🎁</button><button class="secondary" id="shareBtn">Share 💌</button><button class="secondary" id="editBtn">Edit Details ✏️</button></div><p class="hint">There are 25 gifts waiting inside… 🎁🎁🎁</p>
     </section>
-
-    <section id="surprise" class="surprise glass hidden">
-      <div class="gift-progress"><span id="giftNumber">Gift 1</span><div class="progress-track"><i id="giftProgress"></i></div><small>One gift opens another 💕</small></div>
-      <div class="gift-stage" id="giftStage" aria-label="3D birthday gift">
-        <div class="gift-shadow"></div><div class="gift-box"><div class="gift-lid"></div><div class="ribbon-v"></div><div class="ribbon-h"></div></div>
-        <div class="gift-bow"><span></span><span></span></div>
-      </div>
-      <button id="giftBtn" class="gift-open">Open Gift 1 🎁</button>
-      <div id="giftMessage" class="gift-message hidden">
-        <div id="giftBadge" class="gift-badge">A tiny surprise 💖</div>
-        <img id="giftPic" class="gift-pic" alt="Surprise gift picture" loading="lazy" />
-        <h2 id="giftTitle">A little something for you</h2>
-        <p id="giftText"></p>
-        <button id="nextGiftBtn" class="primary next-gift">Open Gift 2 ➜</button>
-      </div>
-      <div id="megaMessage" class="mega-message hidden">
-        <div class="mega-glow">👑</div><div class="mega-box-art">🎁</div>
-        <div class="gift-badge">THE FINAL MEGA SURPRISE ✨</div>
-        <h2>25 Gifts. One Huge Wish. 💖</h2>
-        <p>You made it all the way to the biggest box! May your life be filled with the same warmth, smiles and magic that these little surprises brought you.</p>
-        <div class="mega-wish">🌸 <b>Happy Birthday!</b> 🌸<br><span>May every new chapter be even more beautiful than the last.</span></div>
-        <button id="replayBtn" class="secondary">Play All Gifts Again 🔄</button>
-      </div>
+    <section id="surprise" class="surprise glass hidden"><div class="gift-progress"><span id="giftNumber">Gift 1</span><div class="progress-track"><i id="giftProgress"></i></div><small>One gift opens another 💕</small></div><div class="gift-stage" id="giftStage" aria-label="3D birthday gift"><div class="gift-shadow"></div><div class="gift-box"><div class="gift-lid"></div><div class="ribbon-v"></div><div class="ribbon-h"></div></div><div class="gift-bow"><span></span><span></span></div></div><button id="giftBtn" class="gift-open">Open Gift 1 🎁</button>
+      <div id="giftMessage" class="gift-message hidden"><div id="giftBadge" class="gift-badge">A tiny surprise 💖</div><img id="giftPic" class="gift-pic" alt="Surprise gift picture" loading="lazy" /><h2 id="giftTitle">A little something for you</h2><p id="giftText"></p><button id="nextGiftBtn" class="primary next-gift">Open Gift 2 ➜</button></div>
+      <div id="megaMessage" class="mega-message hidden"><div class="mega-glow">👑</div><div class="mega-box-art">🎁</div><div class="gift-badge">THE FINAL MEGA SURPRISE ✨</div><h2>25 Gifts. One Huge Wish. 💖</h2><p>You made it all the way to the biggest box! May your life be filled with the same warmth, smiles and magic that these little surprises brought you.</p><div class="mega-wish">🌸 <b>Happy Birthday!</b> 🌸<br><span>May every new chapter be even more beautiful than the last.</span></div><button id="replayBtn" class="secondary">Play All Gifts Again 🔄</button></div>
     </section>
-
-    <section class="footer-note">Made with <span>♥</span> just for you · <button id="musicBtn">🔇 Music</button></section>
+    <section class="footer-note">Made with <span>♥</span> just for you · <button id="musicBtn">🔇 Music</button> · <a href="music.html" target="_blank" style="color:inherit;font-weight:700">🎵 Music Player</a></section>
   </main>
-
   <canvas id="confetti"></canvas>
   <audio id="music" loop preload="none"><source src="https://cdn.pixabay.com/audio/2022/03/15/audio_7d2a5c1f8f.mp3" type="audio/mpeg"></audio>
   <script src="script.js"></script>
-</body>
-</html>
+</body></html>
