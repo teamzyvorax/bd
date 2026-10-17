@@ -14,6 +14,16 @@ app.use(cors({ origin: true }));
 app.use(express.json());
 app.use('/uploads', express.static(UPLOAD_DIR));
 
+app.get('/', (_req, res) => {
+  res.json({
+    ok: true,
+    service: 'Zyvora Birthday Music API',
+    status: 'online',
+    health: '/api/health',
+    upload: 'POST /api/music'
+  });
+});
+
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => cb(null, UPLOAD_DIR),
   filename: (_req, file, cb) => {
