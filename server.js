@@ -13,15 +13,10 @@ fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 app.use(cors({ origin: true }));
 app.use(express.json());
 app.use('/uploads', express.static(UPLOAD_DIR));
+app.use(express.static(__dirname, { index: false }));
 
 app.get('/', (_req, res) => {
-  res.json({
-    ok: true,
-    service: 'Zyvora Birthday Music API',
-    status: 'online',
-    health: '/api/health',
-    upload: 'POST /api/music'
-  });
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 const storage = multer.diskStorage({
