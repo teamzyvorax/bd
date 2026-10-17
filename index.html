@@ -19,16 +19,25 @@
     <div class="setup glass">
       <div class="badge">🎀 Make it personal</div>
       <h1>Create a birthday surprise 💖</h1>
-      <p>Enter the birthday details, add a photo, and get a shareable personalized page.</p>
+      <p>Enter the birthday details, add a photo, then customize all 25 gifts with your own pictures and messages.</p>
       <form id="setupForm">
         <label>Name<input id="nameInput" maxlength="40" placeholder="e.g. Priya" required /></label>
         <label>Age<input id="ageInput" type="number" min="1" max="120" placeholder="e.g. 21" /></label>
         <label>Birthday date<input id="dateInput" type="date" required /></label>
-        <label class="upload">📸 Upload photo<input id="photoInput" type="file" accept="image/*" /></label>
+        <label class="upload">📸 Upload main photo<input id="photoInput" type="file" accept="image/*" /></label>
         <img id="photoPreview" class="photo-preview hidden" alt="Birthday photo preview" />
+
+        <div class="gift-manager">
+          <div class="manager-head">
+            <div><b>🎁 Gift 1–25 Upload</b><small>Har gift ki apni photo + cute text</small></div>
+            <span>25 gifts</span>
+          </div>
+          <div id="giftEditor" class="gift-editor"></div>
+        </div>
+
         <button class="primary wide" type="submit">Create My Birthday Page ✨</button>
       </form>
-      <p class="tiny">Your photo stays in this browser. It is not uploaded to a server.</p>
+      <p class="tiny">Gift photos are saved only in this browser. Nothing is uploaded to a server.</p>
     </div>
   </section>
 
@@ -68,8 +77,7 @@
         <button id="nextGiftBtn" class="primary next-gift">Open Gift 2 ➜</button>
       </div>
       <div id="megaMessage" class="mega-message hidden">
-        <div class="mega-glow">👑</div>
-        <div class="mega-box-art">🎁</div>
+        <div class="mega-glow">👑</div><div class="mega-box-art">🎁</div>
         <div class="gift-badge">THE FINAL MEGA SURPRISE ✨</div>
         <h2>25 Gifts. One Huge Wish. 💖</h2>
         <p>You made it all the way to the biggest box! May your life be filled with the same warmth, smiles and magic that these little surprises brought you.</p>
