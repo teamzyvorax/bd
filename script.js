@@ -1,106 +1,61 @@
-const setup=document.getElementById('setup');
-const page=document.getElementById('birthdayPage');
-const form=document.getElementById('setupForm');
-const nameInput=document.getElementById('nameInput');
-const ageInput=document.getElementById('ageInput');
-const dateInput=document.getElementById('dateInput');
-const photoInput=document.getElementById('photoInput');
-const photoPreview=document.getElementById('photoPreview');
-const nameEl=document.getElementById('name');
-const ageLine=document.getElementById('ageLine');
-const photoFrame=document.getElementById('photoFrame');
-const heroPhoto=document.getElementById('heroPhoto');
-const surprise=document.getElementById('surprise');
-const surpriseBtn=document.getElementById('surpriseBtn');
-const shareBtn=document.getElementById('shareBtn');
-const editBtn=document.getElementById('editBtn');
-const giftStage=document.getElementById('giftStage');
-const giftBtn=document.getElementById('giftBtn');
-const giftMessage=document.getElementById('giftMessage');
-const musicBtn=document.getElementById('musicBtn');
-const music=document.getElementById('music');
+const setup=document.getElementById('setup'),page=document.getElementById('birthdayPage'),form=document.getElementById('setupForm');
+const nameInput=document.getElementById('nameInput'),ageInput=document.getElementById('ageInput'),dateInput=document.getElementById('dateInput'),photoInput=document.getElementById('photoInput'),photoPreview=document.getElementById('photoPreview');
+const nameEl=document.getElementById('name'),ageLine=document.getElementById('ageLine'),photoFrame=document.getElementById('photoFrame'),heroPhoto=document.getElementById('heroPhoto');
+const surprise=document.getElementById('surprise'),surpriseBtn=document.getElementById('surpriseBtn'),shareBtn=document.getElementById('shareBtn'),editBtn=document.getElementById('editBtn');
+const giftStage=document.getElementById('giftStage'),giftBtn=document.getElementById('giftBtn'),giftMessage=document.getElementById('giftMessage'),giftPic=document.getElementById('giftPic'),giftTitle=document.getElementById('giftTitle'),giftText=document.getElementById('giftText'),giftNumber=document.getElementById('giftNumber'),giftProgress=document.getElementById('giftProgress'),giftBadge=document.getElementById('giftBadge'),nextGiftBtn=document.getElementById('nextGiftBtn'),megaMessage=document.getElementById('megaMessage'),replayBtn=document.getElementById('replayBtn');
+const musicBtn=document.getElementById('musicBtn'),music=document.getElementById('music');
+const params=new URLSearchParams(location.search),clean=v=>String(v||'').replace(/[<>]/g,'').trim().slice(0,40);
+const savedName=clean(params.get('name')),savedAge=clean(params.get('age')),savedDate=params.get('date'),savedPhoto=params.get('photo');
 
-const params=new URLSearchParams(location.search);
-const clean=v=>String(v||'').replace(/[<>]/g,'').trim().slice(0,40);
-const savedName=clean(params.get('name'));
-const savedAge=clean(params.get('age'));
-const savedDate=params.get('date');
-const savedPhoto=params.get('photo');
-
-function showBirthday(){setup.style.display='none';page.classList.remove('hidden-page');nameEl.textContent=clean(nameInput.value)||'Beautiful';ageLine.textContent=ageInput.value?`Celebrating ${ageInput.value} wonderful years ✨`:'';startCountdown(dateInput.value)}
-
-function loadFromUrl(){
-  if(!savedName&&!savedDate)return;
-  nameInput.value=savedName||'';ageInput.value=savedAge||'';dateInput.value=savedDate||'';
-  if(savedPhoto){try{heroPhoto.src=savedPhoto;photoFrame.classList.remove('hidden')}catch(e){}}
-  showBirthday();
+const gifts=[
+['A smile for you 😊','Your smile has a way of making ordinary moments feel special. Never stop sharing it.','🌷'],
+['A pocket of sunshine ☀️','Whenever the day feels cloudy, remember that there is always a little sunshine waiting inside you.','🌻'],
+['A hug in words 🤗','Sending you the biggest warm hug, wrapped in all the good wishes you deserve.','💗'],
+['A tiny dream ✨','May one of your biggest dreams quietly become real when you least expect it.','🌙'],
+['A sweet memory 🍭','Keep collecting silly laughs, late-night talks and moments you wish you could replay forever.','🍬'],
+['A lucky star ⭐','Tonight, look up and pick one star. Let it remind you that your possibilities are endless.','⭐'],
+['A flower for your heart 🌸','May your heart stay soft, brave and full of beautiful new beginnings.','🌸'],
+['A little adventure 🗺️','Here is to new places, unexpected plans and stories you will tell for years.','🗺️'],
+['A wish card 💌','Close your eyes, make one quiet wish and carry it with you. Magic loves patient hearts.','💌'],
+['A laugh break 😂','Official birthday rule: laugh loudly, dance badly and enjoy every second without guilt.','🎈'],
+['A rainbow promise 🌈','After every difficult chapter, may you find a brighter page waiting for you.','🌈'],
+['A cup of comfort ☕','Take a slow breath. You are doing better than you think, and you deserve peaceful moments too.','☕'],
+['A sparkle box ✨','You do not need permission to shine. You were born with your own kind of light.','✨'],
+['A forever reminder 🫶','You are loved, appreciated and more important to someone than you probably realize.','🫶'],
+['A dream ticket 🎟️','One ticket to your next amazing chapter. Destination: somewhere wonderfully unexpected.','🎟️'],
+['A courage charm 🦋','Be brave enough to choose yourself, and gentle enough to forgive yourself.','🦋'],
+['A music moment 🎶','Put on your favorite song and let the whole room become your birthday dance floor.','🎶'],
+['A magic key 🗝️','This key opens a door to possibilities you have not even imagined yet.','🗝️'],
+['A cozy cloud ☁️','May you have soft mornings, safe people and nights that end with a peaceful heart.','☁️'],
+['A celebration balloon 🎈','You made it another year! That alone deserves confetti, cake and a giant happy dance.','🎈'],
+['A secret compliment 💕','Someone out there is lucky simply because they get to know the wonderful person you are.','💕'],
+['A future postcard 📮','Greetings from the future: you are smiling because so many beautiful things worked out.','📮'],
+['A tiny crown 👑','Today you are royalty. Rule your day with kindness, confidence and extra dessert.','👑'],
+['A final little kiss 💋','One last small gift before the big one: a kiss for every beautiful moment still to come.','💋']
+];
+let order=[],giftIndex=0,opened=false;
+function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+function resetGifts(){order=shuffle(gifts.map((_,i)=>i));giftIndex=0;opened=false;giftMessage.classList.add('hidden');megaMessage.classList.add('hidden');giftStage.classList.remove('open');updateGiftUI()}
+function updateGiftUI(){const n=giftIndex+1;giftNumber.textContent=n<=24?`Gift ${n} of 25`:'Mega Gift 25';giftProgress.style.width=(n/25*100)+'%';giftBtn.textContent=n<=24?`Open Gift ${n} 🎁`:'Open Mega Gift 25 👑';giftBtn.style.display='inline-block';giftMessage.classList.add('hidden');megaMessage.classList.add('hidden');giftStage.classList.remove('open')}
+function openCurrentGift(){
+  if(opened)return; opened=true; giftStage.classList.add('open'); launchConfetti(); hearts(20);
+  setTimeout(()=>{
+    if(giftIndex<24){const g=gifts[order[giftIndex]];giftPic.src=`https://loremflickr.com/700/430/cute,birthday,flowers?lock=${giftIndex+41}`;giftTitle.textContent=g[0];giftText.textContent=g[1];giftBadge.textContent=`${g[2]} Gift ${giftIndex+1} • A little message for you`;nextGiftBtn.textContent=`Open Gift ${giftIndex+2} ➜`;giftMessage.classList.remove('hidden');giftMessage.classList.add('pop');}
+    else{giftBtn.style.display='none';megaMessage.classList.remove('hidden');megaMessage.classList.add('pop');launchConfetti();hearts(50)}
+  },650)
 }
+function nextGift(){giftIndex++;opened=false;giftMessage.classList.add('hidden');giftStage.classList.remove('open');updateGiftUI();setTimeout(()=>giftStage.scrollIntoView({behavior:'smooth',block:'center'}),80)}
 
-photoInput.addEventListener('change',()=>{
-  const file=photoInput.files?.[0];
-  if(!file)return;
-  const reader=new FileReader();
-  reader.onload=()=>{photoPreview.src=reader.result;photoPreview.classList.remove('hidden');heroPhoto.src=reader.result;photoFrame.classList.remove('hidden');window.currentPhoto=reader.result};
-  reader.readAsDataURL(file);
-});
-
-form.addEventListener('submit',e=>{
-  e.preventDefault();
-  const name=clean(nameInput.value)||'Beautiful';
-  const age=clean(ageInput.value);
-  const date=dateInput.value;
-  const url=new URL(location.href);
-  url.searchParams.set('name',name);
-  if(age)url.searchParams.set('age',age);else url.searchParams.delete('age');
-  if(date)url.searchParams.set('date',date);else url.searchParams.delete('date');
-  if(window.currentPhoto)url.searchParams.set('photo',window.currentPhoto);else url.searchParams.delete('photo');
-  history.replaceState({},'',url);
-  showBirthday();
-  window.scrollTo({top:0,behavior:'smooth'});
-});
-
-editBtn.addEventListener('click',()=>{page.classList.add('hidden-page');setup.style.display='grid';window.scrollTo({top:0,behavior:'smooth'})});
-
-surpriseBtn.addEventListener('click',()=>{
-  surprise.classList.remove('hidden');surprise.classList.add('pop');surprise.scrollIntoView({behavior:'smooth',block:'center'});launchConfetti();hearts(22);surpriseBtn.textContent='Surprise Ready 💖';
-});
-
-giftBtn.addEventListener('click',()=>{
-  giftStage.classList.add('open');giftBtn.textContent='Gift Opened 💖';
-  setTimeout(()=>{giftMessage.classList.remove('hidden');giftMessage.classList.add('pop');launchConfetti();hearts(30)},650);
-});
-
-shareBtn.addEventListener('click',async()=>{
-  const url=new URL(location.href);
-  url.searchParams.set('name',nameEl.textContent);
-  if(ageInput.value)url.searchParams.set('age',ageInput.value);
-  if(dateInput.value)url.searchParams.set('date',dateInput.value);
-  if(window.currentPhoto&&window.currentPhoto.length<180000)url.searchParams.set('photo',window.currentPhoto);else url.searchParams.delete('photo');
-  const data={title:'A Birthday Surprise 💖',text:`Happy Birthday, ${nameEl.textContent}! 🎂💖`,url:url.toString()};
-  try{if(navigator.share)await navigator.share(data);else{await navigator.clipboard.writeText(url.toString());shareBtn.textContent='Link Copied! 💌';setTimeout(()=>shareBtn.textContent='Share 💌',1800)}}catch(e){}
-});
-
-function startCountdown(dateValue){
-  if(window.countdownTimer)clearInterval(window.countdownTimer);
-  const text=document.getElementById('countdownText');
-  if(!dateValue){text.textContent='Add a birthday date to start the countdown.';return}
-  function tick(){
-    const now=new Date();const target=new Date(`${dateValue}T00:00:00`);
-    if(target<now)target.setFullYear(now.getFullYear()+1);
-    const diff=Math.max(0,target-now);
-    const d=Math.floor(diff/86400000),h=Math.floor(diff%86400000/3600000),m=Math.floor(diff%3600000/60000),s=Math.floor(diff%60000/1000);
-    document.getElementById('days').textContent=String(d).padStart(2,'0');document.getElementById('hours').textContent=String(h).padStart(2,'0');document.getElementById('minutes').textContent=String(m).padStart(2,'0');document.getElementById('seconds').textContent=String(s).padStart(2,'0');
-    text.textContent=diff<86400000?'🎉 It is almost your birthday!':`Counting down to ${target.toLocaleDateString(undefined,{month:'long',day:'numeric'})} 🎂`;
-  }
-  tick();window.countdownTimer=setInterval(tick,1000);
-}
-
-let playing=false;
-musicBtn.addEventListener('click',async()=>{try{if(!playing){await music.play();playing=true;musicBtn.textContent='🔊 Music On'}else{music.pause();playing=false;musicBtn.textContent='🔇 Music'}}catch(e){musicBtn.textContent='🎵 Tap again'}});
-
+function showBirthday(){setup.style.display='none';page.classList.remove('hidden-page');nameEl.textContent=clean(nameInput.value)||'Beautiful';ageLine.textContent=ageInput.value?`Celebrating ${ageInput.value} wonderful years ✨`:'';startCountdown(dateInput.value);resetGifts()}
+function loadFromUrl(){if(!savedName&&!savedDate)return;nameInput.value=savedName||'';ageInput.value=savedAge||'';dateInput.value=savedDate||'';if(savedPhoto){try{heroPhoto.src=savedPhoto;photoFrame.classList.remove('hidden')}catch(e){}}showBirthday()}
+photoInput.addEventListener('change',()=>{const file=photoInput.files?.[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{photoPreview.src=reader.result;photoPreview.classList.remove('hidden');heroPhoto.src=reader.result;photoFrame.classList.remove('hidden');window.currentPhoto=reader.result};reader.readAsDataURL(file)});
+form.addEventListener('submit',e=>{e.preventDefault();const name=clean(nameInput.value)||'Beautiful',age=clean(ageInput.value),date=dateInput.value,url=new URL(location.href);url.searchParams.set('name',name);age?url.searchParams.set('age',age):url.searchParams.delete('age');date?url.searchParams.set('date',date):url.searchParams.delete('date');if(window.currentPhoto&&window.currentPhoto.length<180000)url.searchParams.set('photo',window.currentPhoto);else url.searchParams.delete('photo');history.replaceState({},'',url);showBirthday();window.scrollTo({top:0,behavior:'smooth'})});
+editBtn.addEventListener('click',()=>{page.classList.add('hidden-page');setup.style.display='grid';window.scrollTo({top:0,behavior:'smooth')});
+surpriseBtn.addEventListener('click',()=>{surprise.classList.remove('hidden');surprise.classList.add('pop');resetGifts();surprise.scrollIntoView({behavior:'smooth',block:'center'});launchConfetti();hearts(22);surpriseBtn.textContent='25 Gifts Ready 💖'});
+giftBtn.addEventListener('click',openCurrentGift);nextGiftBtn.addEventListener('click',nextGift);replayBtn.addEventListener('click',()=>{resetGifts();giftBtn.style.display='inline-block';giftBtn.scrollIntoView({behavior:'smooth',block:'center'})});
+shareBtn.addEventListener('click',async()=>{const url=new URL(location.href);url.searchParams.set('name',nameEl.textContent);if(ageInput.value)url.searchParams.set('age',ageInput.value);if(dateInput.value)url.searchParams.set('date',dateInput.value);if(window.currentPhoto&&window.currentPhoto.length<180000)url.searchParams.set('photo',window.currentPhoto);else url.searchParams.delete('photo');const data={title:'A Birthday Surprise 💖',text:`Happy Birthday, ${nameEl.textContent}! 🎂💖`,url:url.toString()};try{if(navigator.share)await navigator.share(data);else{await navigator.clipboard.writeText(url.toString());shareBtn.textContent='Link Copied! 💌';setTimeout(()=>shareBtn.textContent='Share 💌',1800)}}catch(e){}});
+function startCountdown(dateValue){if(window.countdownTimer)clearInterval(window.countdownTimer);const text=document.getElementById('countdownText');if(!dateValue){text.textContent='Add a birthday date to start the countdown.';return}function tick(){const now=new Date(),target=new Date(`${dateValue}T00:00:00`);if(target<now)target.setFullYear(now.getFullYear()+1);const diff=Math.max(0,target-now),d=Math.floor(diff/86400000),h=Math.floor(diff%86400000/3600000),m=Math.floor(diff%3600000/60000),s=Math.floor(diff%60000/1000);document.getElementById('days').textContent=String(d).padStart(2,'0');document.getElementById('hours').textContent=String(h).padStart(2,'0');document.getElementById('minutes').textContent=String(m).padStart(2,'0');document.getElementById('seconds').textContent=String(s).padStart(2,'0');text.textContent=diff<86400000?'🎉 It is almost your birthday!':`Counting down to ${target.toLocaleDateString(undefined,{month:'long',day:'numeric'})} 🎂`}tick();window.countdownTimer=setInterval(tick,1000)}
+let playing=false;musicBtn.addEventListener('click',async()=>{try{if(!playing){await music.play();playing=true;musicBtn.textContent='🔊 Music On'}else{music.pause();playing=false;musicBtn.textContent='🔇 Music'}}catch(e){musicBtn.textContent='🎵 Tap again'}});
 function hearts(count){for(let i=0;i<count;i++){const h=document.createElement('div');h.className='heart';h.textContent=['💗','💖','💕','✨','🌸'][Math.floor(Math.random()*5)];h.style.left=Math.random()*100+'vw';h.style.fontSize=12+Math.random()*25+'px';h.style.animationDuration=4+Math.random()*5+'s';document.getElementById('hearts').appendChild(h);setTimeout(()=>h.remove(),9500)}}
-
 function launchConfetti(){const c=document.getElementById('confetti'),ctx=c.getContext('2d');c.width=innerWidth;c.height=innerHeight;const pieces=Array.from({length:180},()=>({x:innerWidth/2,y:innerHeight*.42,vx:(Math.random()-.5)*12,vy:-Math.random()*13-4,size:4+Math.random()*7,rot:Math.random()*6,spin:(Math.random()-.5)*.25}));let frame=0;function draw(){ctx.clearRect(0,0,c.width,c.height);pieces.forEach(p=>{p.x+=p.vx;p.vy+=.28;p.y+=p.vy;p.rot+=p.spin;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=`hsl(${Math.random()*360},90%,70%)`;ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size*1.8);ctx.restore()});if(frame++<170)requestAnimationFrame(draw);else ctx.clearRect(0,0,c.width,c.height)}draw()}
-
-hearts(8);addEventListener('resize',()=>{const c=document.getElementById('confetti');c.width=innerWidth;c.height=innerHeight});
-loadFromUrl();
+hearts(8);addEventListener('resize',()=>{const c=document.getElementById('confetti');c.width=innerWidth;c.height=innerHeight});loadFromUrl();
